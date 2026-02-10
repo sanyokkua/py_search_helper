@@ -1,0 +1,8 @@
+{
+  "airun.settings": {
+    "workspaceId": "d54e93b0-f2fc-4ae4-a757-bc9c45e5c3fb"
+  },
+  "python.testing.pytestArgs": ["tests"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

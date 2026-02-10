@@ -1,0 +1,46 @@
+name: Publish to PyPI
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    environment:
+      name: release
+      url: https://pypi.org/project/py-search-helper/
+    permissions:
+      id-token: write  # Required for trusted publishing
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Set up Python 3.14
+        run: uv python install 3.14
+
+      - name: Install dependencies
+        run: uv sync --frozen
+
+      - name: Run tests
+        run: uv run pytest
+
+      - name: Build package
+        run: uv build
+
+      - name: Publish to PyPI
+        run: uv publish
+        env:
+          # For trusted publishing (recommended):
+          # Configure at https://pypi.org/manage/account/publishing/
+          # No token needed - uses OIDC
+
+          # For API token (alternative):
+          # Uncomment the line below and add PYPI_API_TOKEN to GitHub secrets
+          # UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
