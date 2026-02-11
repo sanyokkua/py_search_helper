@@ -12,7 +12,7 @@ The CLI is automatically installed when you install the `py-search-helper` packa
 
 ```bash
 # If installing from source (development)
-git clone https://github.com/sanyokkua/py-search-helper.git
+git clone https://github.com/sanyokkua/py_search_helper.git
 cd py-search-helper
 uv sync --all-extras
 

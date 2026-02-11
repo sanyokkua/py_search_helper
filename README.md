@@ -1,6 +1,6 @@
 # py-search-helper
 
-[![CI](https://github.com/sanyokkua/py-search-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/sanyokkua/py-search-helper/actions)
+[![CI](https://github.com/sanyokkua/py_search_helper/actions/workflows/ci.yml/badge.svg)](https://github.com/sanyokkua/py_search_helper/actions)
 [![PyPI version](https://badge.fury.io/py/py-search-helper.svg)](https://pypi.org/project/py-search-helper/)
 [![Python 3.14+](https://img.shields.io/badge/python-3.14+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -32,7 +32,7 @@
 ### From source (recommended for development)
 
 ```bash
-git clone https://github.com/sanyokkua/py-search-helper.git
+git clone https://github.com/sanyokkua/py_search_helper.git
 cd py-search-helper
 uv sync --all-extras
 ```

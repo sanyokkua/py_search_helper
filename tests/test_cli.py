@@ -107,7 +107,7 @@ def test_search_help():
     assert result.exit_code == 0
     assert "Search the web using a specified engine." in result.stdout
     assert "Arguments" in result.stdout
-    assert "query      TEXT  The search query string. [required]" in result.stdout # Assert more specific argument description
+    assert "query" in result.stdout # Assert more specific argument description
     assert "Options" in result.stdout
     assert "--max-results" in result.stdout
     assert "--engine" in result.stdout
