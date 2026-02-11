@@ -34,6 +34,7 @@ dev = [
 ]
 
 [project.scripts]
+py-search-helper = "py_search_helper.cli:app"
 py-search-helper-mcp = "py_search_helper.mcp.server:main"
 
 [build-system]
@@ -88,6 +89,10 @@ strict = true
 warn_return_any = true
 warn_unused_configs = true
 files = ["src"]
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+ignore_errors = true
 
 [tool.coverage.run]
 source = ["src"]

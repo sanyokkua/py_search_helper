@@ -17,11 +17,12 @@ def test_mcp_server_instance() -> None:
 def test_mcp_server_has_tools() -> None:
     """Test that MCP server has registered tools."""
     # Test that we can import the tool functions
-    from py_search_helper.mcp.server import get_engines, open_page, search_web
+    from py_search_helper.mcp.server import get_engines, open_page, search_web, search_web_ddg
 
     assert get_engines is not None
     assert search_web is not None
     assert open_page is not None
+    assert search_web_ddg is not None
 
 
 @patch("py_search_helper.mcp.server.get_search_engines")
@@ -95,21 +96,54 @@ def test_search_web_without_site_parameter(mock_search: MagicMock) -> None:
     mock_search.assert_called_once_with(engine="ddgs", query="python", max_results=5, site=None)
 
 
-@patch("py_search_helper.mcp.server.open_url")
-def test_open_page_integration(mock_open_url: MagicMock) -> None:
-    """Test open_page through MCP integration."""
-    from py_search_helper.mcp.server import open_page
+@patch("py_search_helper.mcp.server.search")
+def test_search_web_ddg_integration(mock_search: MagicMock) -> None:
+    """Test search_web_ddg through MCP integration."""
+    from py_search_helper.mcp.server import search_web_ddg
 
-    mock_open_url.return_value = "Page content"
+    mock_search.return_value = "Search results"
 
     # Call the function
-    if hasattr(open_page, "fn"):
-        result = open_page.fn(url="https://example.com", max_chars=1000)
+    if hasattr(search_web_ddg, "fn"):
+        result = search_web_ddg.fn(query="python", max_results=5)
     else:
-        result = open_page(url="https://example.com", max_chars=1000)
+        result = search_web_ddg(query="python", max_results=5)
 
-    mock_open_url.assert_called_once_with(url="https://example.com", max_chars=1000)
-    assert result == "Page content"
+    mock_search.assert_called_once_with(engine="ddgs", query="python", max_results=5, site=None)
+    assert result == "Search results"
+
+
+@patch("py_search_helper.mcp.server.search")
+def test_search_web_ddg_with_site_parameter(mock_search: MagicMock) -> None:
+    """Test search_web_ddg with site parameter."""
+    from py_search_helper.mcp.server import search_web_ddg
+
+    mock_search.return_value = "Search results"
+
+    # Call the function
+    if hasattr(search_web_ddg, "fn"):
+        result = search_web_ddg.fn(query="python", max_results=5, site="python.org")
+    else:
+        result = search_web_ddg(query="python", max_results=5, site="python.org")
+
+    mock_search.assert_called_once_with(engine="ddgs", query="python", max_results=5, site="python.org")
+    assert result == "Search results"
+
+
+@patch("py_search_helper.mcp.server.search")
+def test_search_web_ddg_without_site_parameter(mock_search: MagicMock) -> None:
+    """Test search_web_ddg without site parameter (backward compatibility)."""
+    from py_search_helper.mcp.server import search_web_ddg
+
+    mock_search.return_value = "Search results"
+
+    # Call the function
+    if hasattr(search_web_ddg, "fn"):
+        result = search_web_ddg.fn(query="python", max_results=5)
+    else:
+        result = search_web_ddg(query="python", max_results=5)
+
+    mock_search.assert_called_once_with(engine="ddgs", query="python", max_results=5, site=None)
 
 
 def test_get_engines_real_call() -> None:
@@ -139,6 +173,18 @@ def test_search_web_real_call() -> None:
     assert len(result) > 0
 
 
+def test_search_web_ddg_real_call() -> None:
+    """Test search_web_ddg returns real data."""
+    from py_search_helper.mcp.server import search_web_ddg
+
+    # Get the actual function
+    fn = search_web_ddg.fn if hasattr(search_web_ddg, "fn") else search_web_ddg
+    result = fn(query="test", max_results=1)
+
+    assert isinstance(result, str)
+    assert len(result) > 0
+
+
 def test_open_page_real_call() -> None:
     """Test open_page returns real data."""
     from py_search_helper.mcp.server import open_page
@@ -162,7 +208,7 @@ def test_main_calls_mcp_run(mock_mcp: MagicMock) -> None:
 
 def test_tool_descriptions() -> None:
     """Test that MCP tools have proper descriptions."""
-    from py_search_helper.mcp.server import get_engines, open_page, search_web
+    from py_search_helper.mcp.server import get_engines, open_page, search_web, search_web_ddg
 
     # FastMCP wraps functions in FunctionTool objects with description attribute
     assert hasattr(get_engines, "description")
@@ -171,13 +217,16 @@ def test_tool_descriptions() -> None:
     assert hasattr(search_web, "description")
     assert "search" in search_web.description.lower()
 
+    assert hasattr(search_web_ddg, "description")
+    assert "search" in search_web_ddg.description.lower()
+
     assert hasattr(open_page, "description")
     assert "url" in open_page.description.lower()
 
 
 def test_tool_functionality() -> None:
     """Test that MCP tools work correctly."""
-    from py_search_helper.mcp.server import get_engines, open_page, search_web
+    from py_search_helper.mcp.server import get_engines, open_page, search_web, search_web_ddg
 
     # Test get_engines
     fn = get_engines.fn if hasattr(get_engines, "fn") else get_engines
@@ -188,6 +237,11 @@ def test_tool_functionality() -> None:
     # Test search_web
     fn = search_web.fn if hasattr(search_web, "fn") else search_web
     result = fn(engine="ddgs", query="test", max_results=1)
+    assert isinstance(result, str)
+
+    # Test search_web_ddg
+    fn = search_web_ddg.fn if hasattr(search_web_ddg, "fn") else search_web_ddg
+    result = fn(query="test", max_results=1)
     assert isinstance(result, str)
 
     # Test open_page

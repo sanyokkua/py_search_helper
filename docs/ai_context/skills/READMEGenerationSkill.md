@@ -970,10 +970,10 @@ Bad: Click [here](docs/install.md) for installation
 - Keep them simple and readable
 
 ```markdown
-| Command | Description |
-|---------|-------------|
+| Command | Description         |
+| ------- | ------------------- |
 | `build` | Compile the project |
-| `test`  | Run test suite |
+| `test`  | Run test suite      |
 ```
 
 ### Visual Elements
@@ -1113,13 +1113,13 @@ When generating a README, follow this systematic process:
 
 **Based on project type, select appropriate structure:**
 
-| Project Type | Priority Sections |
-|--------------|-------------------|
-| Library | Overview, Installation, Usage, API Reference, Examples |
-| CLI Tool | Overview, Installation, Usage (commands), Configuration, Examples |
-| Web App | Overview, Demo, Screenshots, Development Setup, Deployment |
-| Backend API | Overview, Prerequisites, Configuration, API Endpoints, Deployment |
-| Data/ML | Overview, Dataset, Model, Training, Inference, Results |
+| Project Type | Priority Sections                                                 |
+| ------------ | ----------------------------------------------------------------- |
+| Library      | Overview, Installation, Usage, API Reference, Examples            |
+| CLI Tool     | Overview, Installation, Usage (commands), Configuration, Examples |
+| Web App      | Overview, Demo, Screenshots, Development Setup, Deployment        |
+| Backend API  | Overview, Prerequisites, Configuration, API Endpoints, Deployment |
+| Data/ML      | Overview, Dataset, Model, Training, Inference, Results            |
 
 ### Step 3: Write Each Section
 

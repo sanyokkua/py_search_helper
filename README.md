@@ -1,29 +1,15 @@
 # py-search-helper
 
-Python library for searching on the internet and extracting web content with MCP server support.
+[![CI](https://github.com/sanyokkua/py-search-helper/actions/workflows/ci.yml/badge.svg)](https://github.com/sanyokkua/py-search-helper/actions)
+[![PyPI version](https://badge.fury.io/py/py-search-helper.svg)](https://pypi.org/project/py-search-helper/)
+[![Python 3.14+](https://img.shields.io/badge/python-3.14+-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-## What is py-search-helper?
+## Overview
 
-py-search-helper provides a consistent interface for searching information on the internet and retrieving web content. It supports multiple search engines, clean content extraction from web pages, and exposes functionality through an MCP (Model Context Protocol) server for AI agent integration.
+`py-search-helper` is a Python library that offers a unified interface for searching the internet and extracting web content. It integrates various search engines and provides functionality for clean text extraction from web pages. Additionally, it features an MCP (Model Context Protocol) server, enabling seamless integration with AI agents for research and information gathering tasks.
 
-## Why Use This?
-
-**For Python Developers:**
-- Simple API with three functions: discover engines, search, and extract content
-- No need to learn different search APIs or content extraction libraries
-- Type-safe interface with comprehensive error handling
-- Ready for integration into automation scripts, data pipelines, or applications
-
-**For AI Agents:**
-- MCP server enables seamless integration with Claude and other AI agents
-- Agents can discover available search sources, perform targeted searches, and extract content
-- Useful for research tasks, documentation lookup, and information gathering
-
-**Use Cases:**
-- Documentation search across multiple sources
-- Content aggregation and analysis
-- AI-powered search assistants
-- Web scraping with clean text extraction
+> Note: Single Page Applications (SPAs) cannot be parsed correctly from the initial HTML response because substantive content is dynamically rendered by JavaScript after load.
 
 ## Features
 
@@ -35,21 +21,49 @@ py-search-helper provides a consistent interface for searching information on th
 - Configurable result limits and character truncation
 - Type-safe API with comprehensive exception handling
 
-## Requirements
+## Prerequisites
 
-- Python 3.14+
+- Python 3.14+ ([Download Python](https://www.python.org/downloads/))
+- `uv` (recommended for dependency management and environment setup)
 - Internet connection for search and content extraction
 
 ## Installation
 
+### From source (recommended for development)
+
 ```bash
-# Development installation with uv
-git clone <repository-url>
+git clone https://github.com/sanyokkua/py-search-helper.git
 cd py-search-helper
 uv sync --all-extras
+```
 
-# Or install from PyPI (when published)
+### From PyPI (for library/mcp users)
+
+```bash
 pip install py-search-helper
+```
+
+### Verify Installation
+
+```bash
+uv run python -c "from py_search_helper import get_search_engines; print(get_search_engines())"
+# Expected output (or similar): [('ddgs', 'General web search (DuckDuckGo)')]
+```
+
+## Configuration
+
+### MCP
+
+**Configuration Example:**
+```json
+{
+  "mcpServers": {
+    "py-search-helper": {
+      "command": "uv",
+      "args": ["run", "python", "-m", "py_search_helper.mcp"]
+    }
+  }
+}
 ```
 
 ## Quick Start
@@ -74,12 +88,6 @@ results = search(engine="ddgs", query="python", max_results=5)
 # Search specific domain
 docs_results = search(engine="ddgs", query="asyncio tutorial", site="docs.python.org")
 
-# Search Stack Overflow
-so_results = search(engine="ddgs", query="python threading", site="stackoverflow.com")
-
-# Search GitHub repositories
-gh_results = search(engine="ddgs", query="python web framework", site="github.com")
-
 # Search PySide documentation
 pyside_results = search(engine="pyside", query="QPushButton", max_results=5)
 print(pyside_results)  # PySide6 documentation results
@@ -87,10 +95,6 @@ print(pyside_results)  # PySide6 documentation results
 # Search Wikipedia
 wiki_results = search(engine="wikipedia", query="Python programming language", max_results=5)
 print(wiki_results)  # Wikipedia articles (all languages)
-
-# Search specific language edition
-wiki_fr = search(engine="wikipedia", query="Python site:fr.wikipedia.org", max_results=5)
-print(wiki_fr)  # French Wikipedia
 
 # Extract content with default limit (max_chars=500)
 content = open_url("https://example.com")
@@ -100,38 +104,61 @@ print(content)  # First 500 characters
 full_content = open_url("https://example.com", max_chars=None)
 ```
 
+### CLI Usage
+
+Once installed, the `py-search-helper` command provides access to the library's core functionalities directly from your terminal.
+
+**List available search engines:**
+
+```bash
+py-search-helper get-engines
+# Example Output:
+# Available Search Engines:
+#   - ddgs: General web search (DuckDuckGo)
+#   - pyside: Qt for Python official documentation
+#   - wikipedia: Wikipedia encyclopedia
+```
+
+**Perform a web search:**
+
+```bash
+# Basic search
+py-search-helper search ddgs "python typer"
+
+# Search with custom result limit
+py-search-helper search ddgs "python requests" -m 5
+
+# Search a specific domain
+py-search-helper search ddgs "asyncio tutorial" -s docs.python.org
+```
+
+**Extract content from a URL:**
+
+```bash
+# Extract content with default character limit (500 chars)
+py-search-helper open-page https://www.example.com
+
+# Extract full content (unlimited characters)
+py-search-helper open-page https://www.example.com -c 0
+```
+
 ### MCP Server Usage
 
 Start the MCP server for AI agent integration:
 
+> Use [MCP Inspector](https://modelcontextprotocol.io/docs/tools/inspector) for testing MCPs
+
+
 ```bash
-# STDIO mode (for Claude Desktop)
-uv run python -m py_search_helper.mcp
+# STDIO mode
+uv run py-search-helper-mcp
+
+For MCP Inspector use command uv and as parameters:
+`--directory ~path_to_th_project/py-search-helper run py-search-helper-mcp`
 
 # HTTP mode (requires fastmcp[http])
 fastmcp run py_search_helper.mcp.server:mcp --transport http --port 8000
 ```
-
-Configure Claude Desktop (`claude_desktop_config.json`):
-
-**File Location:**
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
-- Linux: `~/.config/Claude/claude_desktop_config.json`
-
-**Configuration:**
-```json
-{
-  "mcpServers": {
-    "py-search-helper": {
-      "command": "uv",
-      "args": ["run", "python", "-m", "py_search_helper.mcp"]
-    }
-  }
-}
-```
-
-Restart Claude Desktop after editing the configuration file.
 
 ## API Reference
 
@@ -242,6 +269,26 @@ search_web(engine="ddgs", query="python asyncio", max_results=5)
 search_web(engine="ddgs", query="asyncio", site="docs.python.org", max_results=5)
 ```
 
+### search_web_ddg
+
+Search using DuckDuckGo engine with optional domain filtering.
+
+**Parameters:**
+- `query` (str): Search query
+- `max_results` (int): Maximum results (default: 10)
+- `site` (str | None): Optional domain to restrict search (default: None)
+
+**Returns:** Markdown-formatted search results
+
+**Examples:**
+```python
+# General search
+search_web_ddg(query="python asyncio", max_results=5)
+
+# Search specific domain
+search_web_ddg(query="asyncio", site="docs.python.org", max_results=5)
+```
+
 ### open_page
 
 Extract content from a URL.
@@ -343,13 +390,6 @@ uv run python examples/site_filtering.py
 
 **MCP Server:**
 - [MCP Server Guide](docs/mcp/MCP_SERVER.md) - MCP server setup, configuration, and usage
-
-**Guidelines:**
-- Follow PEP 8 style (enforced by Ruff)
-- Add type hints to all functions
-- Write tests for new features
-- Update documentation as needed
-- Keep commits focused and atomic
 
 See [Development Guide](docs/development/DEVELOPMENT.md) for detailed setup instructions.
 

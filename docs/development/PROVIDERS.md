@@ -471,11 +471,11 @@ def test_provider_search_with_mock(mock_api):
 
 ## Provider Status
 
-| Provider    | Type           | Status     |
-|-------------|----------------|------------|
-| DDGS        | API-based      | Production |
-| PySide      | DDGS-delegated | Production |
-| Wikipedia   | DDGS-delegated | Production |
+| Provider  | Type           | Status     |
+| --------- | -------------- | ---------- |
+| DDGS      | API-based      | Production |
+| PySide    | DDGS-delegated | Production |
+| Wikipedia | DDGS-delegated | Production |
 
 ## Examples
 

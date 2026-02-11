@@ -54,6 +54,31 @@ def search_web(engine: str, query: str, max_results: int = 10, site: str | None 
 
 
 @mcp.tool()
+def search_web_ddg(query: str, max_results: int = 10, site: str | None = None) -> str:
+    """Search using DuckDuckGo engine.
+
+    Args:
+        query: Search query string
+        max_results: Maximum number of results to return (default: 10)
+        site: Optional domain to restrict search (e.g., "python.org", "github.com")
+
+    Returns:
+        Markdown-formatted search results with titles, URLs, and descriptions.
+
+    Examples:
+        # General search
+        search_web_ddg(query="python asyncio tutorial", max_results=5)
+
+        # Search specific domain
+        search_web_ddg(query="asyncio", site="docs.python.org", max_results=5)
+
+        # Search Stack Overflow
+        search_web_ddg(query="python threading", site="stackoverflow.com")
+    """
+    return search(engine="ddgs", query=query, max_results=max_results, site=site)
+
+
+@mcp.tool()
 def open_page(url: str, max_chars: int | None = 500) -> str:
     """Open a URL and extract its content.
 

@@ -36,11 +36,3 @@ jobs:
 
       - name: Publish to PyPI
         run: uv publish
-        env:
-          # For trusted publishing (recommended):
-          # Configure at https://pypi.org/manage/account/publishing/
-          # No token needed - uses OIDC
-
-          # For API token (alternative):
-          # Uncomment the line below and add PYPI_API_TOKEN to GitHub secrets
-          # UV_PUBLISH_TOKEN: ${{ secrets.PYPI_API_TOKEN }}

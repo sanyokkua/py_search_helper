@@ -49,7 +49,30 @@ https://realpython.com/async-io-python/
 Complete guide to async programming...
 ```
 
-### 3. open_page
+### 3. search_web_ddg
+
+Search using DuckDuckGo engine.
+
+**Parameters:**
+- `query` (str): Search query string
+- `max_results` (int, optional): Maximum number of results (default: 10, range: 1-30)
+
+**Returns:** Markdown-formatted search results with titles, URLs, and descriptions
+
+**Example:**
+```markdown
+# Search Results for "python asyncio"
+
+## 1. Python Asyncio Tutorial
+https://docs.python.org/3/library/asyncio.html
+Official Python documentation for asyncio...
+
+## 2. Real Python: Async IO in Python
+https://realpython.com/async-io-python/
+Complete guide to async programming...
+```
+
+### 4. open_page
 
 Extract content from a URL.
 

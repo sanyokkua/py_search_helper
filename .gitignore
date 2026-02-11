@@ -28,6 +28,8 @@ env/
 
 # IDE
 .vscode/
+!.vscode/launch.json
+!.vscode/settings.json
 .idea/
 *.swp
 *.swo
@@ -53,6 +55,7 @@ dmypy.json
 # Distribution / packaging
 *.whl
 *.tar.gz
+dist/
 
 # Logs
 *.log
@@ -60,3 +63,6 @@ dmypy.json
 # Environment variables
 .env
 .env.local
+
+htmlcov/
+.coverage/

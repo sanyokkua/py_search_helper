@@ -146,17 +146,6 @@ uv run pytest -v
 uv run pytest -x
 ```
 
-### Test Structure
-
-| Module | Tests | Coverage | Description |
-|--------|-------|----------|-------------|
-| API | 43 | 100% | Public API functions |
-| Providers | 31 | 99% | Search providers |
-| Extractors | 12 | 100% | Content extraction |
-| Registry | 11 | 100% | Engine registry |
-| MCP | 13 | 98% | MCP server |
-| **Total** | **110** | **99.31%** | All modules |
-
 ### Test Categories
 
 **Unit Tests:**

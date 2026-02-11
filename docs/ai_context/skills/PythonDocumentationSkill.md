@@ -77,9 +77,9 @@ Google style is the **preferred default** for modern Python projects because:
 
 **Alternative styles (only use if requested):**
 
-| Style | Use When |
-|-------|----------|
-| **NumPy style** | User explicitly requests it or project already uses it |
+| Style           | Use When                                                  |
+| --------------- | --------------------------------------------------------- |
+| **NumPy style** | User explicitly requests it or project already uses it    |
 | **Sphinx reST** | User explicitly requests it or legacy project requirement |
 
 **Example (Google style - use this by default):**
@@ -1225,15 +1225,15 @@ def retry(max_attempts: int = 3):
 
 ## Summary of Priorities
 
-| Priority | Action |
-|----------|--------|
-| **Critical** | Add/verify type hints for all public functions and methods |
-| **Critical** | Verify and update existing documentation for accuracy |
-| **Highest** | Document all public API (functions, classes, modules, constants) in Google style |
-| **High** | Include all parameters, returns, and exceptions (check actual code!) |
-| **Medium** | Add realistic examples for complex APIs |
-| **Low** | Add inline comments only for non-obvious *why* explanations |
-| **Never** | Use marketing language or document obvious implementation details |
+| Priority     | Action                                                                           |
+| ------------ | -------------------------------------------------------------------------------- |
+| **Critical** | Add/verify type hints for all public functions and methods                       |
+| **Critical** | Verify and update existing documentation for accuracy                            |
+| **Highest**  | Document all public API (functions, classes, modules, constants) in Google style |
+| **High**     | Include all parameters, returns, and exceptions (check actual code!)             |
+| **Medium**   | Add realistic examples for complex APIs                                          |
+| **Low**      | Add inline comments only for non-obvious *why* explanations                      |
+| **Never**    | Use marketing language or document obvious implementation details                |
 
 ---
 
