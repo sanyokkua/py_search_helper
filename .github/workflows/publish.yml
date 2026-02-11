@@ -4,14 +4,14 @@ on:
   release:
     types: [published]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
-    environment:
-      name: release
-      url: https://pypi.org/project/py-search-helper/
-    permissions:
-      id-token: write  # Required for trusted publishing
+    environment: release
 
     steps:
       - name: Checkout code
